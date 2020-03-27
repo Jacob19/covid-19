@@ -13,53 +13,25 @@ def extract_contents(row): return [x.text.replace('\n', '') for x in row]
 def get_stats():
     URL = 'https://www.mohfw.gov.in/'
 
-    SHORT_HEADERS = ['SNo', 'State', 'Indian-Confirmed',
+    SHORT_HEADERS = ['Sl. No.', 'State', 'Indian-Confirmed',
                      'Foreign-Confirmed', 'Cured', 'Death']
 
     response = requests.get(URL).content
     soup = BeautifulSoup(response, 'html.parser')
-    header = extract_contents(soup.tr.find_all('th'))
 
     stats = []
-    all_rows = soup.find_all('tr')
+    cases = soup.find(id='cases')
+    all_table_rows = cases.find_all('tr')
+    all_table_rows.remove(all_table_rows[0])
+    all_table_rows.pop()
 
-    for row in all_rows:
+    for row in all_table_rows:
         stat = extract_contents(row.find_all('td'))
-        if stat:
-            if len(stat) == 5:
-                # last row
-                stat = ['', *stat]
-                stats.append(stat)
-            elif len(stat) == 6:
-                stats.append(stat)
+        if len(stat) == 5:
+            stat = ['', *stat]
+        stats.append({SHORT_HEADERS[i]: stat[i] for i in range(0, len(stat))})
 
-    stats[-1][1] = "Total Cases"
-
-    stats.remove(stats[-1])
-
-    table = tabulate(stats, headers=SHORT_HEADERS)
-    print(table)
+    # table = tabulate(stats, headers=SHORT_HEADERS)
+    # print(table)
 
     return(stats)
-
-    # objects = []
-    # for row in stats:
-    #     objects.append(row[1])
-
-    # y_pos = np.arange(len(objects))
-
-    # performance = []
-    # for row in stats:
-    #     performance.append(int(row[2]) + int(row[3]))
-
-    # print (stats)
-
-    # plt.barh(y_pos, performance, align='center', alpha=0.5,
-    #          color=(234 / 256.0, 128 / 256.0, 252 / 256.0),
-    #          edgecolor=(106 / 256.0, 27 / 256.0, 154 / 256.0))
-
-    # plt.yticks(y_pos, objects)
-    # plt.xlim(1, 180)
-    # plt.xlabel('Number of Cases')
-    # plt.title('Corona Virus Cases')
-    # plt.show()

@@ -9,7 +9,7 @@
 <body>  
     <table class="table table-striped">
         <thead>
-            <td>SNo</td>
+            <td>Sl. No.</td>
             <td>State</td>
             <td>Indian-Confirmed</td>
             <td>Foreign-Confirmed</td>
@@ -19,12 +19,12 @@
         <tbody>
             {% for row in stats %}
             <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
+                <td>{{ row['Sl. No.'] }}</td>
+                <td>{{ row['State'] }}</td>
+                <td>{{ row['Indian-Confirmed'] }}</td>
+                <td>{{ row['Foreign-Confirmed'] }}</td>
+                <td>{{ row['Cured'] }}</td>
+                <td>{{ row['Death'] }}</td>
             </tr>
             {% endfor %}
         </tbody>
