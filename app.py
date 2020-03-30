@@ -12,8 +12,8 @@ app = Flask(__name__, template_folder="")
 @app.route('/home', methods=['GET', 'POST'])
 def index_page():
     """! \brief  Index Page: This is the landing page of the application """
-    stats = data.get_stats()
-    return render_template('index.html', stats=stats)
+    stats, headers = data.get_stats()
+    return render_template('index.html', stats=stats, headers=headers)
 
 
 if (__name__ == '__main__'):

@@ -10,22 +10,16 @@
     {% if stats %}  
     <table class="table table-striped">
         <thead>
-            <td>Sl. No.</td>
-            <td>State</td>
-            <td>Indian-Confirmed</td>
-            <td>Foreign-Confirmed</td>
-            <td>Cured</td>
-            <td>Death</td>
+            {% for header in headers %}
+            <td>{{ header }}</td>
+            {% endfor %}
         </thead>
         <tbody>
-            {% for row in stats %}
+            {% for stat in stats %}
             <tr>
-                <td>{{ row['Sl. No.'] }}</td>
-                <td>{{ row['State'] }}</td>
-                <td>{{ row['Indian-Confirmed'] }}</td>
-                <td>{{ row['Foreign-Confirmed'] }}</td>
-                <td>{{ row['Cured'] }}</td>
-                <td>{{ row['Death'] }}</td>
+                {% for row in stat %}
+                <td>{{ row }}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>

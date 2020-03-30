@@ -14,30 +14,31 @@ def extract_contents(row): return [x.text.replace('\n', '') for x in row]
 def get_stats():
     URL = 'https://www.mohfw.gov.in/'
 
-    SHORT_HEADERS = ['Sl. No.', 'State', 'Indian-Confirmed',
-                     'Foreign-Confirmed', 'Cured', 'Death']
-
     response = requests.get(URL).content
     soup = BeautifulSoup(response, 'html.parser')
 
     cases = soup.find(id='cases')
+    HEADERS = extract_contents(cases.find_all('th'))
+    
     stats = []
 
     if cases:
-
         all_table_rows = cases.find_all('tr')
         all_table_rows.remove(all_table_rows[0])
         # all_table_rows.pop()
 
         for row in all_table_rows:
             stat = extract_contents(row.find_all('td'))
-            if len(stat) == 5:
+            if len(stat) < len(HEADERS):
                 stat = ['', *stat]
-            stats.append({SHORT_HEADERS[i]: stat[i] for i in range(0, len(stat))})
+            # stats.append({HEADERS[i]: stat[i] for i in range(0, len(stat))})
+            stats.append(stat)
 
-        # table = tabulate(stats, headers=SHORT_HEADERS)
+        # table = tabulate(stats, headers=HEADERS)
         # print(table)
 
     # print(stats)
 
-    return(stats)
+    return(stats, HEADERS)
+
+get_stats()
