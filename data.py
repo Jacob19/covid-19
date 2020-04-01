@@ -17,7 +17,7 @@ def get_stats():
     response = requests.get(URL).content
     soup = BeautifulSoup(response, 'html.parser')
 
-    cases = soup.find(id='cases')
+    cases = soup.find(id='state-data')
     HEADERS = extract_contents(cases.find_all('th'))
     
     stats = []
